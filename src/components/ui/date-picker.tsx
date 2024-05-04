@@ -1,5 +1,5 @@
 import * as React from "react";
-import {eachDayOfInterval, format, isBefore, isSameDay} from "date-fns";
+import {addDays, eachDayOfInterval, format, isBefore, isSameDay} from "date-fns";
 import {Calendar as CalendarIcon} from "lucide-react";
 import {DateRange, Matcher, SelectRangeEventHandler} from "react-day-picker";
 
@@ -47,10 +47,10 @@ export function DatePickerWithRange({
 
   const handleSelect: SelectRangeEventHandler = (selectedDate) => {
     if (!selectedDate) return;
-    if(!selectedDate.from || !selectedDate.to) return;
-    if(isDisabledDayInRange(selectedDate, disabledDays)) return;
+    if(!selectedDate.from && !selectedDate.to) return;
+    if(selectedDate.from && !selectedDate.to) return setDate({...selectedDate, to: undefined});
+    if(isDisabledDayInRange(selectedDate, disabledDays)) return setDate(undefined);
 
-    console.log(selectedDate)
     // Check if the selected start date is before today
     if (isBefore(selectedDate.from, new Date())) {
       selectedDate.from = new Date();
@@ -101,14 +101,12 @@ export function DatePickerWithRange({
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
           <Calendar
-            initialFocus
             mode="range"
             defaultMonth={date?.from}
             selected={date}
             onSelect={handleSelect}
             numberOfMonths={2}
             disabled={disabled} // Disable days before today
-            fromMonth={new Date()} // Prevent navigating back beyond today
           />
         </PopoverContent>
       </Popover>
