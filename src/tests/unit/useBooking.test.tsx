@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 import bookingService from '../../services/bookingService.ts';
-import {useBooking} from "../../hooks/useBooking.ts";
+import {useBookings} from "../../hooks/useBookings.ts";
 import {Booking, BookingStatus} from "../../models/booking.ts";
 import {expect, jest} from '@jest/globals';
 
@@ -15,7 +15,7 @@ const mockedBookingService = bookingService as jest.Mocked<typeof bookingService
 
 // Create a test component that uses the hook
 function TestComponent() {
-  const { bookings, error } = useBooking();
+  const { bookings, error } = useBookings();
   return (
     <div>
       {bookings.map(booking => (

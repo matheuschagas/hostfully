@@ -1,13 +1,13 @@
 import {Container} from "@/components/ui/container.tsx";
 import {useProperty} from "@/hooks/useProperty.ts";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
-import {useParams} from "react-router-dom";
+import {redirect, useParams} from "react-router-dom";
 import {DatePickerWithRange} from "@/components/ui/date-picker.tsx";
 import {differenceInCalendarDays} from "date-fns"
 import {Header} from "@/components/header.tsx";
 import {useMemo, useState} from "react";
 import {DateRange} from "react-day-picker";
-import {useBooking} from "@/hooks/useBooking.ts";
+import {useBookings} from "@/hooks/useBookings.ts";
 
 
 const numberFormater = new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'});
@@ -30,7 +30,7 @@ export const PropertyDetailPage = () => {
   const {property, error, loading} = useProperty(slug);
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
-  const {createBooking} = useBooking();
+  const {createBooking} = useBookings();
 
   const disabledDays = useMemo(() => {
     return [new Date("2024-05-10")]
@@ -48,6 +48,10 @@ export const PropertyDetailPage = () => {
   const openDatePicker = () => {
     document.getElementById("booking-page-date-picker")?.click();
   }
+
+  const pricing = property && startDate && endDate ? differenceInCalendarDays(endDate, startDate) * property.pricePerNight : 0;
+  const cleaningFee = property?.cleaningFee || 0;
+  const total = pricing + cleaningFee + 100;
   const handleBook = async () => {
     if (!property) return;
     if(!startDate && !endDate) return openDatePicker();
@@ -55,12 +59,11 @@ export const PropertyDetailPage = () => {
     await createBooking({
       propertyId: property.id,
       startDate: startDate,
-      endDate: endDate
+      endDate: endDate,
+      amountPaid: total
     });
+    redirect('/bookings');
   }
-  const pricing = property && startDate && endDate ? differenceInCalendarDays(endDate, startDate) * property.pricePerNight : 0;
-  const cleaningFee = property?.cleaningFee || 0;
-  const total = pricing + cleaningFee + 100;
 
   return (
     <>
