@@ -76,7 +76,7 @@ export const PropertyDetailPage = () => {
             <div className={`${startDate && endDate ? 'flex' : 'invisible'} flex-col`}>
               <p
                 className="flex justify-between mt-4 text-xs text-gray-500">{numberFormater.format(property.pricePerNight)} x {startDate && endDate && differenceInCalendarDays(endDate, startDate)} nights
-                <span>{pricing}</span>
+                <span>{numberFormater.format(pricing)}</span>
               </p>
               <p className="flex justify-between mt-1 text-xs text-gray-500">Cleaning
                 fee <span>{numberFormater.format(property.cleaningFee)}</span>

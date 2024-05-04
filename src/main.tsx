@@ -7,6 +7,7 @@ import {
 import './index.css'
 import HomePage from "./pages/HomePage";
 import {PropertyDetailPage} from "./pages/PropertyDetailPage";
+import {BookingsPage} from "./pages/BookingsPage";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,14 @@ const router = createBrowserRouter([
     path: "/property/:slug",
     element: <PropertyDetailPage />,
   },
+  {
+    path: "/bookings",
+    element: <BookingsPage />,
+  },
+  {
+    path: "*",
+    element: <div>Not Found</div>,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
