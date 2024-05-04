@@ -42,6 +42,9 @@ export const BookingPage = () => {
       setEndDate(date.to);
     }
   }
+  const pricing= property ? differenceInCalendarDays(endDate, startDate) * property.pricePerNight : 0;
+  const cleaningFee = property?.cleaningFee || 0;
+  const total = pricing + cleaningFee + 100;
 
   return (
     <>
@@ -49,20 +52,25 @@ export const BookingPage = () => {
       <Container>
         {!loading && !error && property ? <section className="grid gap-x-4 grid-cols-1 md:grid-cols-2">
           <img alt={property.name} src={property.image} className="w-full rounded-lg"/>
-          <div className="max-w-sm">
+          <div className="max-w-xs">
             <h1 className="text-3xl font-semibold">{property.name}</h1>
             <p className="text-sm text-gray-500">{property.location}</p>
             <p className="text-lg font-semibold">{numberFormater.format(property.pricePerNight)}</p>
             <p className="mt-4">{property.description}</p>
             <DatePickerWithRange disabledDays={disabledDays} handleDateChange={handleDateChange} startDate={startDate}
-                                 endDate={endDate} className="mt-4"/>
+                                 endDate={endDate} className="mt-4 w-full"/>
             <p
-              className="mt-4 text-sm text-gray-500">{numberFormater.format(property.pricePerNight)} x {differenceInCalendarDays(endDate, startDate)} nights
-              = {numberFormater.format(differenceInCalendarDays(endDate, startDate) * property.pricePerNight)}</p>
-            <p className="mt-4 text-sm text-gray-500">Cleaning fee {numberFormater.format(property.cleaningFee)}</p>
-            <p className="mt-4 text-sm text-gray-500">Hostfully service fee {numberFormater.format(property.cleaningFee)}</p>
+              className="flex justify-between mt-4 text-xs text-gray-500">{numberFormater.format(property.pricePerNight)} x {differenceInCalendarDays(endDate, startDate)} nights
+              <span>{numberFormater.format(differenceInCalendarDays(endDate, startDate) * property.pricePerNight)}</span>
+            </p>
+            <p className="flex justify-between mt-1 text-xs text-gray-500">Cleaning
+              fee <span>{numberFormater.format(property.cleaningFee)}</span>
+            </p>
+            <p className="flex justify-between mt-1 text-xs text-gray-500">Hostfully service
+              fee <span>{numberFormater.format(100)}</span>
+            </p>
+            <p className="flex justify-between mt-1 text-xs text-gray-500">Total before taxes <span>{numberFormater.format(total)}</span></p>
             <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg">Book Now</button>
-            <p className="mt-1 text-xs text-gray-500">You won't be charged yet</p>
           </div>
         </section> : null}
         {error && <div className="text-red-500">{error}</div>}
