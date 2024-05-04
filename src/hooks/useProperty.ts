@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import propertyService from '../services/propertyService';
 import { Property } from '../models/property';
 
-export const useProperty = (slug:string | undefined) => {
+export const useProperty = (key:string | number | undefined) => {
   const [property, setProperty] = useState<Property>();
   const [error, setError] = useState<string>();
   const [loading, setLoading] = useState(true);
@@ -22,9 +22,27 @@ export const useProperty = (slug:string | undefined) => {
     setLoading(false)
   };
 
+  const loadPropertyById = async (id:number) => {
+    setLoading(true)
+    try {
+      const data = await propertyService.fetchPropertyById(id);
+      setProperty(data);
+    } catch (error) {
+      const {message} = error as Error;
+      setError(message);
+    }
+    setLoading(false)
+  }
+
   useEffect(() => {
-    loadProperty(slug);
-  }, [slug]);
+    if(typeof key === 'number') {
+      loadPropertyById(key);
+      return;
+    }else if(typeof key === 'string') {
+      loadProperty(key);
+      return;
+    }
+  }, [key]);
 
   return { property, error, loading };
 };

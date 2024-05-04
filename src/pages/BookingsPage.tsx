@@ -1,8 +1,9 @@
 import {Container} from "@/components/ui/container.tsx";
 import {Header} from "@/components/header.tsx";
-import {Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {useBookings} from "@/hooks/useBookings.ts";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
+import {useProperty} from "@/hooks/useProperty.ts";
 
 const _Placeholder = ({loading}: { loading: boolean }) => {
   const numberOfSkeletons = loading ? 12 : 0;
@@ -15,7 +16,11 @@ const _Placeholder = ({loading}: { loading: boolean }) => {
       <Skeleton className="w-full h-10"/>
     </div>
   ));
-
+}
+const _Property = ({id}: { id: number }) => {
+  const {property, error, loading} = useProperty(id);
+  if(error) return <p className="text-red-500">{error}</p>;
+  return loading ? <Skeleton className="w-full h-4"></Skeleton> : <p>{property?.name}</p>;
 }
 export const BookingsPage = () => {
   const {bookings, error, loading} = useBookings();
@@ -28,6 +33,7 @@ export const BookingsPage = () => {
           <TableHeader>
             <TableRow>
               <TableHead>Reservation</TableHead>
+              <TableHead>Property</TableHead>
               <TableHead>Period</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="text-right">Amount</TableHead>
@@ -35,8 +41,9 @@ export const BookingsPage = () => {
           </TableHeader>
           {!loading && !error ? <TableBody>
             {bookings.map(booking => (
-              <TableRow key={booking.bookingId}>
-                <TableCell className="font-medium">INV{booking.bookingId}</TableCell>
+              <TableRow key={booking.id}>
+                <TableCell className="font-medium">INV{booking.id}</TableCell>
+                <TableCell><_Property id={booking.propertyId}/></TableCell>
                 <TableCell>{booking.startDate.toDateString()} - {booking.endDate.toDateString()}</TableCell>
                 <TableCell>{booking.status}</TableCell>
                 <TableCell className="text-right">$250.00</TableCell>

@@ -23,6 +23,16 @@ const fetchProperty = async (slug:string): Promise<Property> => {
   return property;
 };
 
+const fetchPropertyById = async (id:number): Promise<Property> => {
+  //fake delay
+  await fakeDelay();
+  const property = properties.find(p => p.id === id);
+  if (!property) {
+    throw new Error('Property not found');
+  }
+  return property;
+};
+
 const addProperty = async (property: Property): Promise<Property> => {
   //fake delay
   await fakeDelay();
@@ -48,6 +58,7 @@ const deleteProperty = async (propertyId: number): Promise<void> => {
 export default {
   fetchProperties,
   fetchProperty,
+  fetchPropertyById,
   addProperty,
   updateProperty,
   deleteProperty

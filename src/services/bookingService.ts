@@ -22,7 +22,7 @@ const createBooking = async (booking: Booking): Promise<Booking> => {
 const updateBooking = async (bookingId: number, booking: Booking): Promise<Booking> => {
   //fake delay
   await fakeDelay();
-  const index = bookings.findIndex(b => b.bookingId === bookingId);
+  const index = bookings.findIndex(b => b.id === bookingId);
   bookings[index] = booking;
   return booking;
 };
@@ -30,7 +30,7 @@ const updateBooking = async (bookingId: number, booking: Booking): Promise<Booki
 const deleteBooking = async (bookingId: number): Promise<void> => {
   //fake delay
   await fakeDelay();
-  const index = bookings.findIndex(b => b.bookingId === bookingId);
+  const index = bookings.findIndex(b => b.id === bookingId);
   bookings.splice(index, 1);
 };
 
