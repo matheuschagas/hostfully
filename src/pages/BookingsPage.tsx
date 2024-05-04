@@ -6,16 +6,9 @@ import {Skeleton} from "@/components/ui/skeleton.tsx";
 import {useProperty} from "@/hooks/useProperty.ts";
 
 const _Placeholder = ({loading}: { loading: boolean }) => {
-  const numberOfSkeletons = loading ? 12 : 0;
-  return Array.from({length: numberOfSkeletons}).map((_, index) => (
-    <div key={index} className="flex gap-1 flex-col bg-white p-4 shadow rounded-lg">
-      <Skeleton className="w-full h-32"/>
-      <Skeleton className="w-full h-7"/>
-      <Skeleton className="w-full h-12"/>
-      <Skeleton className="w-full h-6"/>
-      <Skeleton className="w-full h-10"/>
-    </div>
-  ));
+  return loading ? <div className="flex w-full gap-1 p-4">
+    <Skeleton className="w-full h-4"/>
+  </div> : null;
 }
 const _Property = ({id}: { id: number }) => {
   const {property, error, loading} = useProperty(id);
