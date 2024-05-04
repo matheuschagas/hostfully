@@ -21,8 +21,8 @@ export function DatePickerWithRange({
                                       disabledDays
                                     }: {
   className?: string;
-  startDate: Date;
-  endDate: Date;
+  startDate: Date | undefined;
+  endDate: Date | undefined;
   handleDateChange: (date: DateRange) => void;
   disabledDays?: Date[];
 }) {

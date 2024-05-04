@@ -3,7 +3,7 @@ import {useProperty} from "@/hooks/useProperty.ts";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
 import {useParams} from "react-router-dom";
 import {DatePickerWithRange} from "@/components/ui/date-picker.tsx";
-import {addDays, differenceInCalendarDays} from "date-fns"
+import {differenceInCalendarDays} from "date-fns"
 import {Header} from "@/components/header.tsx";
 import {useMemo, useState} from "react";
 import {DateRange} from "react-day-picker";
@@ -27,8 +27,8 @@ const _Placeholder = ({loading}: { loading: boolean }) => {
 export const BookingPage = () => {
   const {slug} = useParams();
   const {property, error, loading} = useProperty(slug);
-  const [startDate, setStartDate] = useState(addDays(new Date(), 1));
-  const [endDate, setEndDate] = useState(addDays(startDate, 2));
+  const [startDate, setStartDate] = useState<Date | undefined>();
+  const [endDate, setEndDate] = useState<Date | undefined>();
 
   const disabledDays = useMemo(() => {
     return [new Date("2024-05-10")]
@@ -42,7 +42,7 @@ export const BookingPage = () => {
       setEndDate(date.to);
     }
   }
-  const pricing= property ? differenceInCalendarDays(endDate, startDate) * property.pricePerNight : 0;
+  const pricing = property && startDate && endDate ? differenceInCalendarDays(endDate, startDate) * property.pricePerNight : 0;
   const cleaningFee = property?.cleaningFee || 0;
   const total = pricing + cleaningFee + 100;
 
@@ -59,18 +59,21 @@ export const BookingPage = () => {
             <p className="mt-4">{property.description}</p>
             <DatePickerWithRange disabledDays={disabledDays} handleDateChange={handleDateChange} startDate={startDate}
                                  endDate={endDate} className="mt-4 w-full"/>
-            <p
-              className="flex justify-between mt-4 text-xs text-gray-500">{numberFormater.format(property.pricePerNight)} x {differenceInCalendarDays(endDate, startDate)} nights
-              <span>{numberFormater.format(differenceInCalendarDays(endDate, startDate) * property.pricePerNight)}</span>
-            </p>
-            <p className="flex justify-between mt-1 text-xs text-gray-500">Cleaning
-              fee <span>{numberFormater.format(property.cleaningFee)}</span>
-            </p>
-            <p className="flex justify-between mt-1 text-xs text-gray-500">Hostfully service
-              fee <span>{numberFormater.format(100)}</span>
-            </p>
-            <p className="flex justify-between mt-1 text-xs text-gray-500">Total before taxes <span>{numberFormater.format(total)}</span></p>
-            <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg">Book Now</button>
+            {startDate && endDate ? <div className="flex flex-col">
+              <p
+                className="flex justify-between mt-4 text-xs text-gray-500">{numberFormater.format(property.pricePerNight)} x {differenceInCalendarDays(endDate, startDate)} nights
+                <span>{numberFormater.format(differenceInCalendarDays(endDate, startDate) * property.pricePerNight)}</span>
+              </p>
+              <p className="flex justify-between mt-1 text-xs text-gray-500">Cleaning
+                fee <span>{numberFormater.format(property.cleaningFee)}</span>
+              </p>
+              <p className="flex justify-between mt-1 text-xs text-gray-500">Hostfully service
+                fee <span>{numberFormater.format(100)}</span>
+              </p>
+              <p className="flex justify-between mt-1 text-xs text-gray-500">Total before
+                taxes <span>{numberFormater.format(total)}</span></p>
+              <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg">Book Now</button>
+            </div> : null}
           </div>
         </section> : null}
         {error && <div className="text-red-500">{error}</div>}
