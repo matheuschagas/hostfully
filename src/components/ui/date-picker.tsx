@@ -18,13 +18,15 @@ export function DatePickerWithRange({
                                       startDate,
                                       endDate,
                                       handleDateChange,
-                                      disabledDays
+                                      disabledDays,
+                                      id
                                     }: {
   className?: string;
   startDate: Date | undefined;
   endDate: Date | undefined;
   handleDateChange: (date: DateRange) => void;
   disabledDays?: Date[];
+  id?: string;
 }) {
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: startDate,
@@ -77,7 +79,7 @@ export function DatePickerWithRange({
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            id="date"
+            id={id}
             variant={"outline"}
             className={cn(
               "w-[300px] justify-start text-left font-normal",

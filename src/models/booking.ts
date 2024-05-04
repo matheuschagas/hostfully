@@ -1,7 +1,6 @@
 export interface Booking {
   bookingId: number;
   propertyId: number; // This should match a Property's propertyId
-  guestName: string;
   startDate: Date;
   endDate: Date;
   status: BookingStatus; // Enum for booking status

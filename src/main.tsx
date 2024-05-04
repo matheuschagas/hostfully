@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import './index.css'
 import HomePage from "./pages/HomePage";
-import {BookingPage} from "./pages/BookingPage";
+import {PropertyDetailPage} from "./pages/PropertyDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/property/:slug",
-    element: <BookingPage />,
+    element: <PropertyDetailPage />,
   },
 ]);
 

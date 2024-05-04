@@ -2,6 +2,12 @@ import { useState, useEffect, useCallback } from 'react';
 import { Booking } from '../models/booking';
 import bookingService from '../services/bookingService';
 
+interface createBookingProps {
+  propertyId: number;
+  startDate: Date;
+  endDate: Date;
+}
+
 export const useBooking = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -18,7 +24,7 @@ export const useBooking = () => {
     setLoading(false);
   }, []);
 
-  const createBooking = async (booking: Booking) => {
+  const createBooking = async (booking: createBookingProps):Booking => {
     try {
       // Additional logic to check for overlapping bookings
       const overlap = bookings.some(b => b.propertyId === booking.propertyId &&
