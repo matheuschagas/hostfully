@@ -55,7 +55,7 @@ export const BookingPage = () => {
           <div className="max-w-xs">
             <h1 className="text-3xl font-semibold">{property.name}</h1>
             <p className="text-sm text-gray-500">{property.location}</p>
-            <p className="text-lg font-semibold">{numberFormater.format(property.pricePerNight)}</p>
+            <p className="text-lg font-semibold">{numberFormater.format(property.pricePerNight)} per night</p>
             <p className="mt-4">{property.description}</p>
             <DatePickerWithRange disabledDays={disabledDays} handleDateChange={handleDateChange} startDate={startDate}
                                  endDate={endDate} className="mt-4 w-full"/>
