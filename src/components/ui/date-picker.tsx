@@ -1,5 +1,5 @@
 import * as React from "react";
-import {addDays, eachDayOfInterval, format, isBefore, isSameDay} from "date-fns";
+import {eachDayOfInterval, format, isBefore, isSameDay} from "date-fns";
 import {Calendar as CalendarIcon} from "lucide-react";
 import {DateRange, Matcher, SelectRangeEventHandler} from "react-day-picker";
 
@@ -52,12 +52,12 @@ export function DatePickerWithRange({
     if(isDisabledDayInRange(selectedDate, disabledDays)) return setDate(undefined);
 
     // Check if the selected start date is before today
-    if (isBefore(selectedDate.from, new Date())) {
+    if (selectedDate.from && isBefore(selectedDate.from, new Date())) {
       selectedDate.from = new Date();
     }
 
     // Check if the selected end date is before today
-    if (isBefore(selectedDate.to, new Date())) {
+    if (selectedDate.to && isBefore(selectedDate.to, new Date())) {
       selectedDate.to = new Date();
     }
 

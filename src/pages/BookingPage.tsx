@@ -54,8 +54,13 @@ export const BookingPage = () => {
             <p className="text-sm text-gray-500">{property.location}</p>
             <p className="text-lg font-semibold">{numberFormater.format(property.pricePerNight)}</p>
             <p className="mt-4">{property.description}</p>
-            <DatePickerWithRange disabledDays={disabledDays} handleDateChange={handleDateChange} startDate={startDate} endDate={endDate} className="mt-4"/>
-            <p className="mt-4 text-sm text-gray-500">{differenceInCalendarDays(endDate, startDate)} x {numberFormater.format(property.pricePerNight)}</p>
+            <DatePickerWithRange disabledDays={disabledDays} handleDateChange={handleDateChange} startDate={startDate}
+                                 endDate={endDate} className="mt-4"/>
+            <p
+              className="mt-4 text-sm text-gray-500">{numberFormater.format(property.pricePerNight)} x {differenceInCalendarDays(endDate, startDate)} nights
+              = {numberFormater.format(differenceInCalendarDays(endDate, startDate) * property.pricePerNight)}</p>
+            <p className="mt-4 text-sm text-gray-500">Cleaning fee {numberFormater.format(property.cleaningFee)}</p>
+            <p className="mt-4 text-sm text-gray-500">Hostfully service fee {numberFormater.format(property.cleaningFee)}</p>
             <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg">Book Now</button>
             <p className="mt-1 text-xs text-gray-500">You won't be charged yet</p>
           </div>
