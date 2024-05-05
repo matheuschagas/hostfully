@@ -9,7 +9,7 @@ import {Header} from "@/components/header.tsx";
 const numberFormater = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
 
 const _Placeholders = ({loading}: { loading: boolean }) => {
-  const numberOfSkeletons = loading ? 12 : 0;
+  const numberOfSkeletons = loading ? 5 : 0;
   return Array.from({length: numberOfSkeletons}).map((_, index) => (
     <div key={index} className="flex gap-1 flex-col bg-white p-4 shadow rounded-lg">
       <Skeleton className="w-full h-32"/>
